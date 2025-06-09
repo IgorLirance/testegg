@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,31 +8,12 @@
 </head>
 <body>
     <div class="bg-tile"></div>
+
     <div class="egg-wrapper">
-        <img id="egg-image" src="" alt="Your Egg" />
+        <img id="egg-image" src="" alt="Egg Placeholder" />
         <p id="egg-type">Loading...</p>
     </div>
 
-    <!-- Firebase SDK as module -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtVwpIdrC_keNIYo_r-FdXT05HvQg6YhQ",
-            authDomain: "eggtest-cc6f8.firebaseapp.com",
-            projectId: "eggtest-cc6f8",
-            storageBucket: "eggtest-cc6f8.appspot.com",
-            messagingSenderId: "261666465492",
-            appId: "1:261666465492:web:f65f3bad9191b2fbe57d41"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        window.db = db;
-    </script>
-
-    <!-- Telegram + logic WITHOUT type=module -->
     <script src="scripts/main.js"></script>
 </body>
 </html>
