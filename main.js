@@ -1,56 +1,59 @@
-﻿window.addEventListener("DOMContentLoaded", async () => {
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
+﻿const db = firebase.firestore();
 
-    const user = tg.initDataUnsafe?.user;
-    if (!user) {
-        alert("Открой через Telegram WebApp");
+const eggs = [
+    { id: "fire", name: "Fire", image: "assets/fire.png" },
+    { id: "water", name: "Water", image: "assets/water.png" },
+    { id: "grass", name: "Grass", image: "assets/grass.png" },
+    { id: "air", name: "Air", image: "assets/air.png" },
+    { id: "earth", name: "Earth", image: "assets/earth.png" },
+    { id: "electric", name: "Electric", image: "assets/electric.png" }
+];
+
+// ❗ Замени это на свой реальный userId из Telegram
+const userId = Telegram.WebApp.initDataUnsafe?.user?.id || "test_user";
+
+async function getOrAssignEgg(userId) {
+    const userRef = db.collection("users").doc(userId);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists && userDoc.data().eggId) {
+        const egg = eggs.find(e => e.id === userDoc.data().eggId);
+        if (egg) updateEggUI(egg);
         return;
     }
 
-    const userId = String(user.id);
-    const db = window.db;
-    const eggImg = document.querySelector(".egg-icon");
+    // Подсчёт количества уже выданных яиц
+    const counts = {};
+    for (const egg of eggs) counts[egg.id] = 0;
 
-    const { doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js");
+    const allUsers = await db.collection("users").get();
+    allUsers.forEach(doc => {
+        const data = doc.data();
+        if (data.eggId && counts[data.eggId] !== undefined) {
+            counts[data.eggId]++;
+        }
+    });
 
-    const eggRef = doc(db, "eggs", userId);
-    const eggSnap = await getDoc(eggRef);
+    // Находим яйцо с минимальным использованием
+    const minCount = Math.min(...Object.values(counts));
+    const leastUsedEggs = eggs.filter(e => counts[e.id] === minCount);
+    const selected = leastUsedEggs[Math.floor(Math.random() * leastUsedEggs.length)];
 
-    if (eggSnap.exists()) {
-        const data = eggSnap.data();
-        eggImg.src = `assets/${data.type}.svg`;
-    } else {
-        const newEgg = getRandomEgg();
-        await setDoc(eggRef, {
-            type: newEgg,
-            health: 100,
-            progress: 0,
-            createdAt: Date.now()
-        });
-        eggImg.src = `assets/${newEgg}.svg`;
-    }
-});
+    // Сохраняем выбор
+    await userRef.set({
+        eggId: selected.id,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
 
-function getRandomEgg() {
-    const eggs = ["egg1", "egg2", "egg3"];
-    return eggs[Math.floor(Math.random() * eggs.length)];
+    updateEggUI(selected);
 }
 
-// Firebase config
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+function updateEggUI(egg) {
+    document.getElementById("egg-image").src = egg.image;
+    document.getElementById("egg-type").textContent = egg.name;
+}
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBtVwpIdrC_keNIYo_r-FdXT05HvQg6YhQ",
-    authDomain: "eggtest-cc6f8.firebaseapp.com",
-    projectId: "eggtest-cc6f8",
-    storageBucket: "eggtest-cc6f8.firebasestorage.app",
-    messagingSenderId: "261666465492",
-    appId: "1:261666465492:web:f65f3bad9191b2fbe57d41"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window.db = db;
+// ⚡ Стартуем
+window.addEventListener("DOMContentLoaded", () => {
+    getOrAssignEgg(userId);
+});

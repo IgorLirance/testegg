@@ -1,22 +1,28 @@
 ﻿<!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Egg Incubator</title>
-    <link rel="stylesheet" href="styles/main.css" />
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="main.css" />
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <!-- Инициализация Firebase -->
+    <script src="scripts/firebase-init.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <div class="background"></div>
-        <div class="egg-wrapper">
-            <img src="assets/egg1.svg" alt="Яйцо" class="egg-icon" />
-        </div>
-        <div class="footer">
-            <p>Добро пожаловать в инкубатор</p>
-        </div>
+    <!-- Повторяющийся фон -->
+    <div class="bg-tile"></div>
+
+    <!-- Инкубатор -->
+    <div class="egg-wrapper">
+        <img id="egg-image" src="" alt="Your Egg" />
+        <p id="egg-type">Loading...</p>
     </div>
-    <script type="module" src="scripts/main.js"></script>
+
+    <!-- Скрипт логики -->
+    <script src="main.js"></script>
 </body>
 </html>
