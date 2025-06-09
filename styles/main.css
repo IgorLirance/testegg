@@ -1,5 +1,4 @@
-﻿/* Сброс */
-body, html {
+﻿body, html {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
@@ -7,7 +6,6 @@ body, html {
     background-color: black;
 }
 
-/* Фон */
 .bg-tile {
     background: url('assets/bg.png') repeat;
     background-size: 440px 376px;
@@ -17,7 +15,6 @@ body, html {
     z-index: -1;
 }
 
-/* Центровка яйца */
 .egg-wrapper {
     display: flex;
     flex-direction: column;
@@ -27,13 +24,11 @@ body, html {
     text-align: center;
 }
 
-/* Само яйцо */
 #egg-image {
     width: 256px;
     height: 256px;
 }
 
-/* Подпись типа */
 #egg-type {
     margin-top: 12px;
     font-size: 1.4rem;

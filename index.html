@@ -4,25 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Egg Incubator</title>
-    <link rel="stylesheet" href="main.css" />
-
-    <!-- Firebase SDK -->
+    <link rel="stylesheet" href="styles/main.css" />
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <!-- Инициализация Firebase -->
-    <script src="scripts/firebase-init.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtVwpIdrC_keNIYo_r-FdXT05HvQg6YhQ",
+            authDomain: "eggtest-cc6f8.firebaseapp.com",
+            projectId: "eggtest-cc6f8",
+            storageBucket: "eggtest-cc6f8.appspot.com",
+            messagingSenderId: "261666465492",
+            appId: "1:261666465492:web:f65f3bad9191b2fbe57d41"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
 </head>
 <body>
-    <!-- Повторяющийся фон -->
     <div class="bg-tile"></div>
 
-    <!-- Инкубатор -->
     <div class="egg-wrapper">
         <img id="egg-image" src="" alt="Your Egg" />
         <p id="egg-type">Loading...</p>
     </div>
 
-    <!-- Скрипт логики -->
-    <script src="main.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 </html>
